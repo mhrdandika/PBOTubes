@@ -11,8 +11,15 @@ package pbo;
  */
 public class Kelas {
 
+    private int idk;
     private Dosen dosen;
     private Matkul matkul;
+
+    public Kelas(int idk, Dosen dosen, Matkul matkul) {
+        this.idk = idk;
+        this.matkul = matkul;
+        this.dosen = dosen;
+    }
 
     /**
      * @return the dosen
@@ -45,6 +52,20 @@ public class Kelas {
     public void view() {
         System.out.println("Dosen : " + getDosen());
         System.out.println("Matkul : " + getMatkul());
+    }
+
+    /**
+     * @return the idk
+     */
+    public int getIdk() {
+        return idk;
+    }
+
+    /**
+     * @param idk the idk to set
+     */
+    public void setIdk(int idk) {
+        this.idk = idk;
     }
 
 }

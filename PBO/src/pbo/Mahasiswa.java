@@ -42,32 +42,32 @@ public class Mahasiswa extends Orang {
     public int getJumpil() {
         return jumpil;
     }
-    
-    public void addKelas(Kelas k){
+
+    public void addKelas(Kelas k) {
         if (jumpil < 6) {
             pilihan[jumpil] = k;
             jumpil++;
         }
-        
+
     }
-    
-    public void removeKelas(Kelas id){
+
+    public void removeKelas(int idk) {
         int index = -1;
-        for (int i = 0; i < jumpil; i++){
-            if (pilihan[i] == id){
+        for (int i = 0; i < jumpil; i++) {
+            if (pilihan[i].getIdk() == idk) {
                 index = i;
             }
         }
-        if (index != -1){
-            for( int i = index; i < jumpil -1; i++){
-                jumpil = jumpil -1;
-                pilihan[i] = pilihan[i+1];
+        if (index != -1) {
+            for (int i = index; i < jumpil - 1; i++) {
+                jumpil = jumpil - 1;
+                pilihan[i] = pilihan[i + 1];
             }
             System.out.println("Kelas berhasil terhapus");
-        } 
+        }
     }
-    
-    public Kelas getKelas(int x){
+
+    public Kelas getKelas(int x) {
         return pilihan[x];
     }
 
