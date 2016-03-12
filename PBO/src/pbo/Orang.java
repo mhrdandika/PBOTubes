@@ -10,39 +10,40 @@ package pbo;
  * @author ASUS
  */
 public class Orang {
+
     private String nama;
-    private String nomer;
+    private int notel;
     private String email;
-    
-    public Orang (String nama, String nomer, String email){
+
+    public Orang(String nama, int notel, String email) {
         this.nama = nama;
-        this.nomer = nomer;
+        this.notel = notel;
         this.email = email;
-                
+
     }
-    
-    public void setNama(String nama){
+
+    public void setNama(String nama) {
         this.nama = nama;
     }
-    
-    public void setNomer(String nomer){
-        this.nomer = nomer;
+
+    public void setNotel(int notel) {
+        this.notel = notel;
     }
-    
-    public void setEmail(String email){
-        this.nama = nama;
+
+    public void setEmail(String email) {
+        this.email = email;
     }
-    
-    public String getNama(){
+
+    public String getNama() {
         return nama;
     }
-    
-    public String getNomer(){
-        return nomer;
+
+    public int getNotel() {
+        return notel;
     }
-    
-    public String getEmail(){
+
+    public String getEmail() {
         return email;
     }
-    
+
 }
