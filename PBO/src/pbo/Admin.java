@@ -15,11 +15,22 @@ public class Admin {
     private String password;
     private Kelas[] dKelas;
     private Matkul[] dMatkul;
-    private int jumkelas;
-    private int jumkul;
+    private int jumkelas=0;
+    private int jumkul=0;
     
-    public void createKelas(int idk, Dosen dosen, Matkul matkul) {
-        dKelas[jumkelas] = new Kelas(idk, dosen, matkul);
+    public Admin(String username, String password){
+        this.username=username;
+        this.password=password;
+    }
+    
+    public void createKelas(int idk, Dosen dosen, Matkul matkul,int jumlahkelas) {
+        dKelas= new Kelas[jumlahkelas];
+        Kelas a = new Kelas(idk, dosen, matkul);
+        dKelas[jumkelas] = a;
+        jumkelas++;
+    }
+    public void addKelas(Kelas a){
+        dKelas[jumkelas] = a;
         jumkelas++;
     }
     
@@ -39,8 +50,14 @@ public class Admin {
         }
     }
     
-    public void createMatkul(String KodeMK, String NamaMK, int sks) {
-        dMatkul[jumkul] = new Matkul(KodeMK, NamaMK, sks);
+    public void createMatkul(String KodeMK, String NamaMK, int sks,int maksarray) {
+        Matkul[] dMatkul= new Matkul[maksarray];
+        Matkul m = new Matkul(KodeMK,NamaMK,sks);
+        dMatkul[jumkul] = m;
+        jumkul++;
+    }
+    public void addMatkul(Matkul a){
+        dMatkul[jumkul] = a;
         jumkul++;
     }
     
