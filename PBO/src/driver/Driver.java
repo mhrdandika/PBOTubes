@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pbo;
+package driver;
 
 /**
  *
- * @author ASUS
+ * @author cadas
  */
-public class PBO {
+import console.Console;
+import pbo.Aplikasi;
 
-    /**
-     * @param args the command line arguments
-     */
+public class Driver {
     public static void main(String[] args) {
-        // TODO code application logic here
+        Aplikasi a = new Aplikasi();
+        Console c = new Console(a);
+        c.menuUtama();
     }
-    
 }

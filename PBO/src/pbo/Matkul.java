@@ -62,4 +62,9 @@ public class Matkul {
         this.sks = sks;
     }
     
+    public String toString(){
+        return "Kode MK\t: "+KodeMK+
+                "\nNama MK\t: "+NamaMK+
+                "\nSKS\t: "+sks;
+    }
 }

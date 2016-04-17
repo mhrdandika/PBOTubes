@@ -12,13 +12,10 @@ package pbo;
 public class Orang {
 
     private String nama;
-    private int notel;
-    private String email;
-
-    public Orang(String nama, int notel, String email) {
+ 
+    
+    public Orang(String nama) {
         this.nama = nama;
-        this.notel = notel;
-        this.email = email;
 
     }
 
@@ -26,24 +23,9 @@ public class Orang {
         this.nama = nama;
     }
 
-    public void setNotel(int notel) {
-        this.notel = notel;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getNama() {
         return nama;
     }
 
-    public int getNotel() {
-        return notel;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 
 }

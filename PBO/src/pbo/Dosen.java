@@ -13,8 +13,8 @@ public class Dosen extends Orang {
     private long nip;
     private String KD;
     
-    public Dosen(String nama, int notel, String email, long nip, String KD){
-        super(nama, notel, email);
+    public Dosen(String nama,long nip, String KD){
+        super(nama);
         this.nip = nip;
         this.KD = KD;
     }
@@ -47,4 +47,9 @@ public class Dosen extends Orang {
         this.KD = KD;
     }
     
+    public String toString(){
+        return "Kode Dosen\t: "+KD+
+                "\nNama Dosen\t: "+super.getNama()+
+                "\nNIP\t\t: "+nip;
+    }
 }

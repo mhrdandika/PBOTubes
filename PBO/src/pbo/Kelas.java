@@ -67,5 +67,14 @@ public class Kelas {
     public void setIdk(int idk) {
         this.idk = idk;
     }
-
+    
+    public String toString(){
+        return "ID Kelas\t: "+idk+
+                "\nKode Dosen\t: "+dosen.getKD()+
+                "\nKode MK\t: "+matkul.getKodeMK();
+    }
+    
+    public String viewShort(){
+        return idk+" "+matkul.getKodeMK();
+    }
 }
