@@ -10,12 +10,14 @@ package driver;
  * @author cadas
  */
 import console.Console;
+import controller.Controller;
 import pbo.Aplikasi;
 
 public class Driver {
     public static void main(String[] args) {
         Aplikasi a = new Aplikasi();
-        Console c = new Console(a);
-        c.menuUtama();
+        //Console c = new Console(a);
+        //c.menuUtama();
+        new Controller(a);
     }
 }

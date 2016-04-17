@@ -40,6 +40,26 @@ public class Aplikasi {
         return daftarKelas;
     }
     
+    public String[] getKodeDosen(){
+        String[] s = new String[daftarDosen.size()];
+        int i = 0;
+        for (Dosen d : daftarDosen){
+            s[i] = d.getKD();
+            i++;
+        }
+        return s;
+    }
+    
+    public String[] getKodeMK(){
+        String[] s = new String[daftarDosen.size()];
+        int i = 0;
+        for (Matkul d : daftarMatkul){
+            s[i] = d.getKodeMK();
+            i++;
+        }
+        return s;
+    }
+    
     public void addDosen(String nama, long nip, String KD){
         daftarDosen.add(new Dosen(nama,nip,KD));
     }
@@ -79,6 +99,22 @@ public class Aplikasi {
         for (Mahasiswa m : daftarMahasiswa){
             if (m.getNim()==nim)
                 return m;
+        }
+        return null;
+    }
+    
+    public Mahasiswa findMahasiswa(String user){
+        for (Mahasiswa m : daftarMahasiswa){
+            if (m.getUsername().equals(user))
+                return m;
+        }
+        return null;
+    }
+    
+    public Dosen findDosen(int nip){
+        for (Dosen d : daftarDosen){
+            if (d.getNip()==nip)
+                return d;
         }
         return null;
     }

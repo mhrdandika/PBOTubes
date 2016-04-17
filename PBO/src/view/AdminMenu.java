@@ -588,8 +588,8 @@ public class AdminMenu extends javax.swing.JPanel {
 
     //================================================ TAB KELOLA MAHASISWA ===================================================//
     
-    public String getNimMhs(){
-        return txtNim.getText();
+    public int getNimMhs(){
+        return Integer.parseInt(txtNim.getText());
     }
     
     public String getNamaMhs(){
@@ -658,8 +658,8 @@ public class AdminMenu extends javax.swing.JPanel {
     
     //================================================== TAB KELOLA DOSEN =====================================================//
     
-    public String getNip(){
-        return txtNip.getText();
+    public int getNip(){
+        return Integer.parseInt(txtNip.getText());
     }
     
     public String getNamaDosen(){

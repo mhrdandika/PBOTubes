@@ -5,7 +5,9 @@
  */
 package view;
 
+import java.awt.CardLayout;
 import java.awt.event.ActionListener;
+import javax.swing.JPanel;
 
 /**
  *
@@ -13,11 +15,14 @@ import java.awt.event.ActionListener;
  */
 public class PanelContainer extends javax.swing.JFrame {
 
+    private CardLayout cardLayout;
     /**
      * Creates new form PanelContainer
      */
     public PanelContainer() {
         initComponents();
+        cardLayout = new CardLayout();
+        mainPanel.setLayout(cardLayout);
     }
 
     /**
@@ -88,6 +93,14 @@ public class PanelContainer extends javax.swing.JFrame {
     private javax.swing.JPanel mainPanel;
     // End of variables declaration//GEN-END:variables
 
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
+    public CardLayout getCardLayout() {
+        return cardLayout;
+    }
+    
     public Object closeButtonPressed(){
         return closeButton;
     }
