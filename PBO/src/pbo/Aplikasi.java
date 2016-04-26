@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package pbo;
+import database.Database;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,12 +17,18 @@ public class Aplikasi {
     private ArrayList<Mahasiswa> daftarMahasiswa;
     private ArrayList<Kelas> daftarKelas;
     private ArrayList<Matkul> daftarMatkul;
+    private Database db;
    
     public Aplikasi(){
+        db = new Database();
         daftarDosen = new ArrayList<>();
-        daftarMahasiswa = new ArrayList<>();
-        daftarKelas = new ArrayList<>();
+        daftarDosen = db.getDsn();
         daftarMatkul = new ArrayList<>();
+        daftarMatkul = db.getMk();
+        daftarKelas = new ArrayList<>();
+        daftarKelas = db.getKls(daftarDosen, daftarMatkul);
+        daftarMahasiswa = new ArrayList<>();
+        daftarMahasiswa = db.getMhs(daftarKelas);
     }
     
     public ArrayList<Dosen> getListDosen(){
@@ -62,29 +69,45 @@ public class Aplikasi {
     
     public void addDosen(String nama, long nip, String KD){
         daftarDosen.add(new Dosen(nama,nip,KD));
+        db.saveDsn(nip, nama, KD);
     }
     
     public void addMahasiswa(String nama, String username, String password, int nim){
         System.out.println(username);
         daftarMahasiswa.add(new Mahasiswa(nama,username,password,nim));
+        db.saveMhs(nim, nama, username, password);
     }
     
-    public void addKelas(int idk, Dosen dosen, Matkul matkul){
+    public void addKelas(String idk, Dosen dosen, Matkul matkul){
+        db.saveKls(idk, dosen, matkul);
         daftarKelas.add(new Kelas(idk,dosen,matkul));
     }
     
     public void addMatKul(String KodeMK, String NamaMK, int sks){
+        db.saveMk(KodeMK, NamaMK, sks);
         daftarMatkul.add(new Matkul(KodeMK,NamaMK,sks));
     }
 
-    public String[] getListIDKelas(){
+    public String[] getListIDKelas(Mahasiswa m){
         String[] s = new String[daftarKelas.size()];
         int i = 0;
         for (Kelas k : daftarKelas){
-            s[i] = k.viewShort();
-            i++;
+            if (m.findKelas(k.getIdk())==-1){
+                s[i] = k.viewShort();
+                i++;
+            }
         }
         return s;
+    }
+    
+    public ArrayList<Kelas> getListKelas(Mahasiswa m){
+        ArrayList<Kelas> dk = new ArrayList();
+        for (Kelas k : daftarKelas){
+            if (m.findKelas(k.getIdk())==-1){
+                dk.add(k);
+            }
+        }
+        return dk;
     }
     
     public Dosen getDosen(String KD){
@@ -119,12 +142,28 @@ public class Aplikasi {
         return null;
     }
     
-    public Kelas getKelas(int idk){
+    public Kelas getKelas(String idk){
         for (Kelas k : daftarKelas){
-            if (k.getIdk()==idk)
+            if (k.getIdk().equals(idk))
                 return k;
         }
         return null;
+    }
+    
+    public int findKelas(Dosen d){
+        for (Kelas k : daftarKelas){
+            if (k.getDosen().equals(d))
+                return daftarKelas.indexOf(k);
+        }
+        return -1;
+    }
+    
+    public int findKelas2(Matkul m){
+        for (Kelas k : daftarKelas){
+            if (k.getMatkul().equals(m))
+            return daftarKelas.indexOf(k);
+        }
+        return -1;
     }
     
     public Matkul getMatkul(String kodemk){
@@ -137,21 +176,34 @@ public class Aplikasi {
     
     public void deleteDosen(String KD){
         daftarDosen.remove(daftarDosen.indexOf(getDosen(KD)));
+        db.deleteDsn(KD);
     }
     
     public void deleteMahasiswa(long nim){
         daftarMahasiswa.remove(daftarMahasiswa.indexOf(getMahasiswa(nim)));
+        db.deleteMhs(nim);
     }
     
-    public void deleteKelas(int idk){
+    public void deleteKelas(String idk){
+        db.deleteKls(idk);
         daftarKelas.remove(daftarKelas.indexOf(getKelas(idk)));
     }
     
+    public void deleteKelas2(String idk){
+        for (Mahasiswa m : daftarMahasiswa){
+            if (m.findKelas(idk)!=-1){
+                m.removeKelas(idk);
+            }
+        }
+    }
+    
     public void deleteMatkul(String kodemk){
+        db.deleteMk(kodemk);
         daftarMatkul.remove(daftarMatkul.indexOf(getMatkul(kodemk)));
     }
     
     public void editDosen(String KD,String nama, long nip, String KDBaru){
+        db.editDsn(nip, nama, KDBaru, KD);
         Dosen d = getDosen(KD);
         d.setNama(nama);
         d.setNip(nip);
@@ -159,6 +211,7 @@ public class Aplikasi {
     }
     
     public void editMahasiswa(int nim,String nama, String username, String password, int nim2){
+        db.editMhs(nim2, nama, username, password, nim2);
         Mahasiswa m = getMahasiswa(nim);
         m.setNama(nama);
         m.setUsername(username);
@@ -166,7 +219,8 @@ public class Aplikasi {
         m.setNim(nim2);
     }
     
-    public void editKelas(int idk, Dosen dosen, Matkul matkul, int idkBaru){
+    public void editKelas(String idk, Dosen dosen, Matkul matkul, String idkBaru){
+        db.editKls(idkBaru, dosen, matkul, idk);
         Kelas k = getKelas(idk);
         k.setDosen(dosen);
         k.setMatkul(matkul);
@@ -174,30 +228,33 @@ public class Aplikasi {
     }
     
     public void editMatKul(String kodeMK, String NamaMK, int sks, String kodeMKbaru){
+        db.editMk(kodeMKbaru, NamaMK, sks, kodeMK);
         Matkul m = getMatkul(kodeMK);
         m.setKodeMK(kodeMKbaru);
         m.setNamaMK(NamaMK);
         m.setSks(sks);
     }
     
-    public int findKelasMhs(Mahasiswa m, int id){
+    public int findKelasMhs(Mahasiswa m, String id){
         return m.findKelas(id);
     }
     
-    public Kelas[] getListKelasMhs(Mahasiswa m){
+    public ArrayList<Kelas> getListKelasMhs(Mahasiswa m){
         return m.getListKelas();
     }
     
-    public Kelas getKelasMhs(Mahasiswa m, int id){
+    public Kelas getKelasMhs(Mahasiswa m, String id){
         return m.getKelas(m.findKelas(id));
     }
     
     public void menuMhsTambahKelas(Mahasiswa m, Kelas k){
+        db.saveKelasMhs(m, k);
         m.addKelas(k);
     }
     
-    public void menuMhsHapusKelas(Mahasiswa m, Kelas k){
-        m.removeKelas(k.getIdk());
+    public void menuMhsHapusKelas(Mahasiswa m, String idk){
+        db.deleteKelasMhs(m, idk);
+        m.removeKelas(idk);
     }
     
     public void menuMhsViewKelas(Mahasiswa m){
@@ -217,120 +274,8 @@ public class Aplikasi {
         return null;
     }
     
-    /*
+    public int getSKSMhs(Mahasiswa m){
+        return m.hitungSks();
+    }
     
-    public void mainmenu(){
-        Scanner ob = new Scanner(System.in);
-        System.out.println("Masukkan Username :");
-        String as = ob.nextLine();
-        System.out.println("Masukkan password :");
-        String b = ob.nextLine();
-        Admin ad = new Admin(as,b);
-       
-        
-        System.out.println("Main Menu Admin :");
-        System.out.println("1.Add kelas :");
-        System.out.println("2.Remove Kelas :");
-        System.out.println("3.Add Matkul :");
-        System.out.println("4.Remove Matkul :");
-        System.out.println("Masukkan pilihan :");
-        Scanner pilihan = new Scanner(System.in);
-        int a = pilihan.nextInt();
-        switch(a){
-            case 1:
-        System.out.println("Masukkan Nama Dosen :");
-        String da = ob.nextLine();
-        System.out.println("Masukkan Notel Dosen :");
-        int no=ob.nextInt();
-        System.out.println("Masukkan Email Dosen :");
-        String em= ob.nextLine();
-        System.out.println("Masukkan NIP Dosen :");
-        Long ni= ob.nextLong();
-        System.out.println("Masukkan KD  :");
-        String dk= ob.nextLine();
-        Dosen d = new Dosen(da,no,em,ni,dk);
-        System.out.println("Masukkan Nama Matkul  :");
-        String nk= ob.nextLine();
-        System.out.println("Masukkan KodeMatkul  :");
-        String nm= ob.nextLine();
-        System.out.println("Masukkan Jumlah sks  :");
-        int sk = ob.nextInt();
-        Matkul ma = new Matkul(nk,nm,sk);
-                
-                 System.out.println("Masukkan id kelas : ");
-                 int kel = ob.nextInt();
-                 Kelas ke = new Kelas(kel,d,ma);
-                 ad.addKelas(ke);
-            case 2 :
-                System.out.println("Masukkan id kelas yg akan dihapus ");
-                int idm = ob.nextInt();
-                ad.removeKelas(idm);
-            case 3 :
-                System.out.println("Masukkan Nama Matkul  :");
-                 nk= ob.nextLine();
-                System.out.println("Masukkan KodeMatkul  :");
-                nm= ob.nextLine();
-                System.out.println("Masukkan Jumlah sks  :");
-                sk = ob.nextInt();
-                 Matkul ms = new Matkul(nk,nm,sk);
-                ad.addMatkul(ms);
-            case 4  :
-                 System.out.println("Masukkan id matkul yg akan dihapus ");
-                String idn = ob.nextLine();
-                ad.removeMatkul(idn);
-                
-                
-        }
-        
-    }
-    public void mainmenu1(){
-        Scanner p = new Scanner(System.in);
-         Scanner pil = new Scanner(System.in);
-         System.out.println("Masukkan nama mahasiswa :");
-         String n=pil.nextLine();
-         System.out.println("Masukkan email :");
-         String na=pil.nextLine();
-         System.out.println("Masukkan no telepon :");
-        int c=p.nextInt();
-         System.out.println("Masukkan nim :");
-        int ca=p.nextInt();
-          Mahasiswa m= new Mahasiswa(n,na,c,ca);
-         
-        System.out.println("Main Menu Mahasiswa :");
-        System.out.println("1.Create kelas :");
-        System.out.println("2.Remove Kelas :");
-        System.out.println("Masukkan pilihan :");
-        int asx = p.nextInt();
-        switch(asx){
-        case 1 :
-                System.out.println("Masukkan Nama Dosen :");
-        String da = pil.nextLine();
-        System.out.println("Masukkan Notel Dosen :");
-        int no=p.nextInt();
-        System.out.println("Masukkan Email Dosen :");
-        String em= pil.nextLine();
-        System.out.println("Masukkan NIP Dosen :");
-        Long ni= p.nextLong();
-        System.out.println("Masukkan KD  :");
-        String dk= pil.nextLine();
-        Dosen d = new Dosen(da,no,em,ni,dk);
-        System.out.println("Masukkan Nama Matkul  :");
-        String nk= pil.nextLine();
-        System.out.println("Masukkan KodeMatkul  :");
-        String nm= pil.nextLine();
-        System.out.println("Masukkan Jumlah sks  :");
-        int sk = p.nextInt();
-        Matkul ma = new Matkul(nk,nm,sk);
-                
-                 System.out.println("Masukkan id kelas : ");
-                 int kel = p.nextInt();
-                 Kelas ke = new Kelas(kel,d,ma);
-                 m.addKelas(ke);
-            case 2 :
-                 System.out.println("Masukkan id kelas yg akan dihapus ");
-                int idn = p.nextInt();
-                m.removeKelas(idn);
-        } 
-    }
-    */
 }

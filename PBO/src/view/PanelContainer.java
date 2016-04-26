@@ -7,6 +7,7 @@ package view;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -40,7 +41,7 @@ public class PanelContainer extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        mainPanel.setBorder(new javax.swing.border.MatteBorder(null));
+        mainPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -50,7 +51,7 @@ public class PanelContainer extends javax.swing.JFrame {
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addGap(0, 447, Short.MAX_VALUE)
         );
 
         closeButton.setText("Close");
@@ -67,7 +68,7 @@ public class PanelContainer extends javax.swing.JFrame {
                     .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(logoutButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 480, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 623, Short.MAX_VALUE)
                         .addComponent(closeButton)))
                 .addContainerGap())
         );
@@ -105,7 +106,7 @@ public class PanelContainer extends javax.swing.JFrame {
         return closeButton;
     }
     
-    public Object logoutButtonPressed(){
+    public JButton logoutButtonPressed(){
         return logoutButton;
     }
     

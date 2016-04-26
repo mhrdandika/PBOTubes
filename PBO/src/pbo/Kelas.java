@@ -11,11 +11,11 @@ package pbo;
  */
 public class Kelas {
 
-    private int idk;
+    private String idk;
     private Dosen dosen;
     private Matkul matkul;
 
-    public Kelas(int idk, Dosen dosen, Matkul matkul) {
+    public Kelas(String idk, Dosen dosen, Matkul matkul) {
         this.idk = idk;
         this.matkul = matkul;
         this.dosen = dosen;
@@ -57,14 +57,14 @@ public class Kelas {
     /**
      * @return the idk
      */
-    public int getIdk() {
+    public String getIdk() {
         return idk;
     }
 
     /**
      * @param idk the idk to set
      */
-    public void setIdk(int idk) {
+    public void setIdk(String idk) {
         this.idk = idk;
     }
     

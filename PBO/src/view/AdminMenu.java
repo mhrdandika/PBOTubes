@@ -8,6 +8,7 @@ package view;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 import pbo.Dosen;
 import pbo.Kelas;
@@ -588,7 +589,7 @@ public class AdminMenu extends javax.swing.JPanel {
 
     //================================================ TAB KELOLA MAHASISWA ===================================================//
     
-    public int getNimMhs(){
+    public int getNimMhs() throws NumberFormatException{
         return Integer.parseInt(txtNim.getText());
     }
     
@@ -612,7 +613,7 @@ public class AdminMenu extends javax.swing.JPanel {
         return buttonEditMhs;
     }
     
-    public Object getDeleteMhs(){
+    public JButton getDeleteMhs(){
         return buttonDeleteMhs;
     }
     
@@ -658,7 +659,7 @@ public class AdminMenu extends javax.swing.JPanel {
     
     //================================================== TAB KELOLA DOSEN =====================================================//
     
-    public int getNip(){
+    public int getNip() throws NumberFormatException {
         return Integer.parseInt(txtNip.getText());
     }
     
@@ -678,7 +679,7 @@ public class AdminMenu extends javax.swing.JPanel {
         return buttonEditDsn;
     }
     
-    public Object getDeleteDsn(){
+    public JButton getDeleteDsn(){
         return buttonDeleteDsn;
     }
     
@@ -741,7 +742,7 @@ public class AdminMenu extends javax.swing.JPanel {
         return buttonEditMK;
     }
     
-    public Object getDeleteMK(){
+    public JButton getDeleteMK(){
         return buttonDeleteMK;
     }
     
@@ -844,7 +845,7 @@ public class AdminMenu extends javax.swing.JPanel {
         return buttonEditKls;
     }
     
-    public Object getDeleteKls(){
+    public JButton getDeleteKls(){
         return buttonDeleteKls;
     }
     
@@ -857,7 +858,7 @@ public class AdminMenu extends javax.swing.JPanel {
         String[][] isi = new String[list.size()][3];
         int i = 0;
         for (Kelas m : list){
-            isi[i][0] = String.valueOf(m.getIdk());
+            isi[i][0] = m.getIdk();
             isi[i][1] = m.getMatkul().getKodeMK();
             isi[i][2] = m.getDosen().getKD();
             i++;
@@ -878,7 +879,7 @@ public class AdminMenu extends javax.swing.JPanel {
     }
     
     public void refreshEditKelas(Kelas m){
-        txtKodeMK.setText(String.valueOf(m.getIdk()));
+        txtKodeKls.setText(m.getIdk());
         cbDosenKelas.setSelectedItem(m.getDosen().getKD());
         cbMKKelas.setSelectedItem(m.getMatkul().getKodeMK());
     }
@@ -906,6 +907,4 @@ public class AdminMenu extends javax.swing.JPanel {
         tableMK.addMouseListener(e);
         tableKelas.addMouseListener(e);
     }
-    
-    
 }

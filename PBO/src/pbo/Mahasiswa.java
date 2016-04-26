@@ -5,13 +5,15 @@
  */
 package pbo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author ASUS
  */
 public class Mahasiswa extends Orang {
 
-    private Kelas[] pilihan;
+    private ArrayList<Kelas> pilihan;
     private int nim;
     private int jumpil;
     private String username;
@@ -22,7 +24,7 @@ public class Mahasiswa extends Orang {
         this.nim = nim;
         this.username = username;
         this.password = password;
-        pilihan = new Kelas[6];
+        pilihan = new ArrayList();
         jumpil = 0;
     }
 
@@ -48,11 +50,8 @@ public class Mahasiswa extends Orang {
     }
 
     public void addKelas(Kelas k) {
-        if (jumpil < 6) {
-            pilihan[jumpil] = k;
-            jumpil++;
-        }
-        else System.out.println("Kelas sudah penuh");
+        pilihan.add(k);
+        jumpil = pilihan.size();
     }
     
         /**
@@ -69,7 +68,7 @@ public class Mahasiswa extends Orang {
         this.username = username;
     }
 
-    public Kelas[] getListKelas(){
+    public ArrayList<Kelas> getListKelas(){
         return pilihan;
     }
     
@@ -87,29 +86,35 @@ public class Mahasiswa extends Orang {
         this.password = password;
     }
     
-    public int findKelas(int idk){
+    public int findKelas(String idk){
         int index = -1;
         for (int i = 0; i < jumpil; i++) {
-            if (pilihan[i].getIdk() == idk) {
+            if (pilihan.get(i).getIdk().equals(idk)) {
                 index = i;
             }
         }
         return index;
     }
     
-    public void removeKelas(int idk) {
+    public void removeKelas(String idk) {
         int index = findKelas(idk);
         if (index != -1) {
-            for (int i = index; i < jumpil - 1; i++) {
-                pilihan[i] = pilihan[i + 1];
-            }
-            jumpil = jumpil - 1;
+            pilihan.remove(index);
+            jumpil = pilihan.size();
             System.out.println("Kelas berhasil terhapus");
         }
     }
 
     public Kelas getKelas(int x) {
-        return pilihan[x];
+        return pilihan.get(x);
+    }
+    
+    public int hitungSks(){
+        int jum = 0;
+        for (Kelas k : pilihan){
+            jum += k.getMatkul().getSks();
+        }
+        return jum;
     }
 
     public String toString(){

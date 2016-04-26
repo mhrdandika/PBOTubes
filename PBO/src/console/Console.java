@@ -99,7 +99,7 @@ public class Console {
                     }
                     case 4:{
                         System.out.print("\nID Kelas\t: ");
-                        int id = inputInteger();
+                        String id = sStr.nextLine();
                         if (model.getKelas(id)==null){
                             ArrayList<Dosen> d = model.getListDosen();
                             ArrayList<Matkul> m = model.getListMatkul();
@@ -270,10 +270,10 @@ public class Console {
                         switch(pil2){
                             case 1:{
                                 System.out.print("\nID diedit\t: ");
-                                int id = inputInteger();
+                                String id = sStr.nextLine();
                                 if (model.getKelas(id)!=null){
                                     System.out.print("\nID baru\t: ");
-                                    int idbaru = inputInteger();
+                                    String idbaru = sStr.nextLine();
                                     if (model.getKelas(idbaru)!=null&&!model.getKelas(idbaru).equals(model.getKelas(id))){
                                         System.out.println("ID Kelas sudah ada"); 
                                     } else {
@@ -305,7 +305,7 @@ public class Console {
                             }
                             case 2:{
                                 System.out.print("\nID dihapus\t: ");
-                                int id = inputInteger();
+                                String id = sStr.nextLine();
                                 if (model.getKelas(id)!=null){
                                     model.deleteKelas(id);
                                     System.out.println("Data Berhasil dihapus");
@@ -347,7 +347,7 @@ public class Console {
                             System.out.println(a.toString());
                         }
                         System.out.print("ID kelas diambil\t: ");
-                        int id = inputInteger();
+                        String id = sStr.nextLine();
                         if (model.getKelas(id)==null){
                             System.out.println("ID Kelas tidak terdaftar");
                         } else if (model.findKelasMhs(m,id)!=-1){
@@ -362,9 +362,9 @@ public class Console {
                     }
                     case 3:{
                         System.out.print("ID Kelas dihapus\t: ");
-                        int id = inputInteger();
+                        String id = sStr.nextLine();
                         if (model.findKelasMhs(m,id)!=-1){
-                            model.menuMhsHapusKelas(m,model.getKelas(id));
+                            model.menuMhsHapusKelas(m,id);
                         } else System.out.println("ID Kelas tidak ada");
                         break;
                     }
